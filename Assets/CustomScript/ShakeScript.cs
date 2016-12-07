@@ -13,16 +13,14 @@ public class ShakeScript : MonoBehaviour {
 	private Vector3 lowPassValue = Vector3.zero;
 	private Vector3 acceleration;
 	private Vector3 deltaAcceleration;
-	private PointerManager ptrMgr;
-	private Button deSelect;
+	private SceneManager scnMgr;
 
 	public void Start()
 	{	
 		lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
 		//shakeDetectionThreshold *= shakeDetectionThreshold;
 		lowPassValue = Input.acceleration;
-		ptrMgr = GameObject.FindObjectOfType<PointerManager> ();
-		deSelect = GameObject.Find("Deselect").GetComponent<Button>();
+		scnMgr = GameObject.FindObjectOfType<SceneManager> ();
 
 	}
 
@@ -32,10 +30,10 @@ public class ShakeScript : MonoBehaviour {
 		lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
 		deltaAcceleration = acceleration - lowPassValue;
 
-		if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold && !ptrMgr.getSelectable())
+		if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold && scnMgr.getSelectedObject() != null)
 		{	
 
-			ptrMgr.deSelect ();
+			scnMgr.deSelectObject ();
 			//Debug.Log("Shake event detected at time "+Time.time);
 
 		}

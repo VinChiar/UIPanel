@@ -147,7 +147,7 @@ public class PointerManager : MonoBehaviour {
 
     public void deSelect()
     {
-		sceneMgr.deSelectObject();
+		//sceneMgr.deSelectObject();
         selectable = true;
         focused = null;
         selected = null;

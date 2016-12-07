@@ -5,9 +5,12 @@ public class SceneManager : MonoBehaviour {
 
 	bool allowScale;
 	public GameObject selected;
+	PointerManager ptrMgr;
 
 	// Use this for initialization
 	void Start () {
+
+		ptrMgr = GameObject.FindObjectOfType<PointerManager> ();
 
 	}
 	
@@ -30,7 +33,8 @@ public class SceneManager : MonoBehaviour {
 
 	public void deSelectObject()
 	{
-		
+
+		ptrMgr.deSelect ();
 		selected.GetComponent<Selectable> ().deSelectObj ();
 		selected = null;
 		//call pointer manager to reset

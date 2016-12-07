@@ -19,7 +19,7 @@ public class UIPanel : MonoBehaviour {
 	GameObject panel;
 	GameObject lineTop;
 	GameObject lineBottom;
-	Button scale, rotateX, rotateY, rotateZ, moveXY, moveZ, deSelect;
+	Button scale, rotateX, rotateY, rotateZ, moveXY, moveZ;
 
 	// Use this for initialization
 	void Start () {
@@ -33,8 +33,6 @@ public class UIPanel : MonoBehaviour {
 		gstMgr = FindObjectOfType<GestureMgr> ();
 
 		panel = GameObject.Find ("Panel");
-		deSelect = GameObject.Find ("Deselect").GetComponent<Button> ();
-		deSelect.gameObject.SetActive (false);
 
 		scale = GameObject.Find ("Scale").GetComponent<Button> ();
 		scale.onClick.AddListener (delegate { ToggleScale ();} );
