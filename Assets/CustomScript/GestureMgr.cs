@@ -133,7 +133,7 @@ public class GestureMgr : MonoBehaviour {
 
 			} else if (y1 < y2) {
 
-				if(delta2>0 && delta1<0)
+				if(delta2 > 0 && delta1 < 0)
 					sceneMgr.rotate(rotateVector);
 				else if (delta2 < 0 && delta1 > 0)
 					sceneMgr.rotate(-1*rotateVector);

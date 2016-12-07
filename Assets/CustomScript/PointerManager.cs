@@ -162,4 +162,10 @@ public class PointerManager : MonoBehaviour {
 
 	}
 
+	public bool getSelectable(){
+		
+		return selectable;
+
+	}
+
 }

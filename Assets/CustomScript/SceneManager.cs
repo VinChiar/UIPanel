@@ -25,6 +25,7 @@ public class SceneManager : MonoBehaviour {
 	public void selectObject(GameObject toSelect)
 	{
 		selected = toSelect;
+		selected.GetComponent<Selectable> ().selectObj ();
 	}
 
 	public void deSelectObject()

@@ -19,7 +19,7 @@ public class UIPanel : MonoBehaviour {
 	GameObject panel;
 	GameObject lineTop;
 	GameObject lineBottom;
-	Button deSelect, scale, rotateX, rotateY, rotateZ, moveXY, moveZ;
+	Button scale, rotateX, rotateY, rotateZ, moveXY, moveZ, deSelect;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +34,7 @@ public class UIPanel : MonoBehaviour {
 
 		panel = GameObject.Find ("Panel");
 		deSelect = GameObject.Find ("Deselect").GetComponent<Button> ();
+		deSelect.gameObject.SetActive (false);
 
 		scale = GameObject.Find ("Scale").GetComponent<Button> ();
 		scale.onClick.AddListener (delegate { ToggleScale ();} );
@@ -64,7 +65,7 @@ public class UIPanel : MonoBehaviour {
 		if (selected != null) {
 
 			dest1.x = rt.rect.width - 100; //this value is width/2 - posx
-			dest1.y = panel.transform.position.y - (rt.rect.height / 2) + 30; //pointing a little bit toward the center
+			dest1.y = panel.transform.position.y - (rt.rect.height / 2) + 150; //pointing a little bit toward the center
 			dest1.z = canv.planeDistance;
 
 			dest2.x = rt.rect.width - 100;
@@ -95,7 +96,6 @@ public class UIPanel : MonoBehaviour {
 		
 		}
 
-		deSelect.gameObject.SetActive (active);
 		panel.gameObject.SetActive (active);
 	
 	}
