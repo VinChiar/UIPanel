@@ -44,6 +44,9 @@ public class PointerManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		Vector3 newPos;
+
         if(cursor == null)
         {
             cursor = GameObject.FindGameObjectWithTag("Player");
@@ -112,16 +115,48 @@ public class PointerManager : MonoBehaviour {
                     ray = cam.ScreenPointToRay(fixedPointer);
                     if (planeY.Raycast(ray, out rayDist))
                     {
-                        Debug.Log(ray.GetPoint(rayDist));
+                        //Debug.Log(ray.GetPoint(rayDist));
                         cursor.transform.position = ray.GetPoint(rayDist);
-						sceneMgr.translate (cursor.transform.position, false);
+						newPos = cursor.transform.position;
+						if (newPos.y < 0) { //newPos.y - 0.25 for the cube not to be half above and half below
+						
+							newPos.y = 0;
+							enablePlane ();
+
+						} else {
+
+							disablePlane ();
+
+						}
+
+						sceneMgr.translate (newPos, false);
+
                     }
+
                 }
                 else
                     ms = MovementState.NO_MOVE;
                 break;
         }
     }
+
+	public void enablePlane(){
+		
+		GameObject plane = GameObject.Find ("Plane");
+		Renderer renderer = plane.GetComponent<Renderer> ();
+		renderer.material.color = Color.red;
+		Collider coll = plane.GetComponent<Collider> ();
+		coll.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+	}
+
+	public void disablePlane(){
+
+		GameObject plane = GameObject.Find ("Plane");
+		Collider coll = plane.GetComponent<Collider> ();
+		coll.transform.eulerAngles = new Vector3(180f, 0f, 0f);		
+
+	}
 
 
     public void changeMovState(int ms)

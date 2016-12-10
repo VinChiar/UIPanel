@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class UIPanel : MonoBehaviour {
 
 	public bool active;
-	public Material lineMaterial;
 	bool[] pressedButtons = {false, false, false, false, false, false};
 	Color lineColor = Color.blue;
 
@@ -89,29 +88,13 @@ public class UIPanel : MonoBehaviour {
 		if (active) {
 
 
-			lineBottom = drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest1));
-			lineTop = drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest2));
+			lineBottom = sceneMgr.drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest1), lineColor, null);
+			lineTop = sceneMgr.drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest2), lineColor, null);
 		
 		}
 
 		panel.gameObject.SetActive (active);
 	
-	}
-
-	GameObject drawLine(Vector3 origin, Vector3 dest){
-
-		GameObject line = new GameObject ();
-		line.transform.position = origin;
-		line.AddComponent<LineRenderer> ();
-		LineRenderer lineRend = line.GetComponent<LineRenderer> ();
-		lineRend.material = lineMaterial;
-		lineRend.SetColors (lineColor, lineColor);
-		lineRend.SetPosition (0, origin);
-		lineRend.SetPosition (1, dest);
-		lineRend.SetWidth (2f, 0f);
-
-		return line;
-
 	}
 
 	void destroyLine(GameObject line){
