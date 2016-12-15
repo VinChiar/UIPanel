@@ -31,7 +31,7 @@ public class UIPanel : MonoBehaviour {
 		ptrMgr = FindObjectOfType<PointerManager> ();
 		gstMgr = FindObjectOfType<GestureMgr> ();
 
-		panel = GameObject.Find ("Panel");
+        panel = GameObject.Find("Panel");
 
 		scale = GameObject.Find ("Scale").GetComponent<Button> ();
 		scale.onClick.AddListener (delegate { ToggleScale ();} );
@@ -45,11 +45,34 @@ public class UIPanel : MonoBehaviour {
 		rotateY.onClick.AddListener (delegate { ToggleRotate ("Y");} );
 		rotateZ = panel.GetComponentsInChildren<Button> () [3];
 		rotateZ.onClick.AddListener (delegate { ToggleRotate ("Z");} );
-			
-	}
+
+        //MUST DO BE HERE CUZ BEFORE BUTTON AND OTHERS OBJ CAN'T BE SEEN
+        panel.SetActive(false);
+
+    }
 	
-	// Update is called once per frame
-	void Update () {
+    public void setActive()
+    {
+        active = true;
+    }
+    public void setInactive()
+    {
+        active = false;
+        for (int i = 0; i < panel.GetComponentsInChildren<Button>().Length; i++)
+        {
+
+            DisableButton(i);
+
+        }
+        gstMgr.disableScaling();
+        gstMgr.disableRotating();
+        ptrMgr.changeMovState(0);
+        panel.SetActive(false);
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 		Vector3 dest1 = Vector3.zero;
 		Vector3 dest2 = Vector3.zero;
@@ -59,7 +82,7 @@ public class UIPanel : MonoBehaviour {
 		destroyLine (lineTop);
 		destroyLine (lineBottom);
 
-		if (selected != null) {
+		if (selected != null && active) {
 
 			dest1.x = rt.rect.width - 100; //this value is width/2 - posx
 			dest1.y = panel.transform.position.y - (rt.rect.height / 2) + 150; //pointing a little bit toward the center
@@ -69,31 +92,12 @@ public class UIPanel : MonoBehaviour {
 			dest2.y = panel.transform.position.y + (rt.rect.height / 2) - 30;
 			dest2.z = canv.planeDistance;
 
-			active = true;
+            lineBottom = sceneMgr.drawLine(this.selected.transform.position, camera.ScreenToWorldPoint(dest1), lineColor, null);
+            lineTop = sceneMgr.drawLine(this.selected.transform.position, camera.ScreenToWorldPoint(dest2), lineColor, null);
 
-		} else {
+            panel.gameObject.SetActive(true);
 
-			for (int i = 0; i < panel.GetComponentsInChildren<Button> ().Length; i++) {
-
-				DisableButton (i);
-
-			}
-
-			gstMgr.disableScaling();
-			gstMgr.disableRotating ();
-			active = false;
-
-		}
-
-		if (active) {
-
-
-			lineBottom = sceneMgr.drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest1), lineColor, null);
-			lineTop = sceneMgr.drawLine (this.selected.transform.position, camera.ScreenToWorldPoint(dest2), lineColor, null);
-		
-		}
-
-		panel.gameObject.SetActive (active);
+        }
 	
 	}
 

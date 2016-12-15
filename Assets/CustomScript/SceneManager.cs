@@ -8,15 +8,23 @@ public class SceneManager : MonoBehaviour {
 	public GameObject selected;
 	public Material lineMaterial;
 	GameObject selectedLine;
+
 	PointerManager ptrMgr;
-	RaycastHit hit;
+    UIPanel panel;
+    FineTuningController fiTuCo;
 
-	// Use this for initialization
-	void Start () {
+    RaycastHit hit;
+    private bool fineTuningActive;
 
-		ptrMgr = GameObject.FindObjectOfType<PointerManager> ();
+    // Use this for initialization
+    void Start () {
 
-	}
+		ptrMgr = FindObjectOfType<PointerManager> ();
+        panel = FindObjectOfType<UIPanel>();
+        fiTuCo = FindObjectOfType<FineTuningController>();
+        fineTuningActive = false;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {	
@@ -52,45 +60,57 @@ public class SceneManager : MonoBehaviour {
 	public void selectObject(GameObject toSelect)
 	{
 		selected = toSelect;
-		selected.GetComponent<Selectable> ().selectObj ();
+		selected.GetComponent<Selectable>().selectObj ();
+        if (fineTuningActive)
+        {
+            fiTuCo.setActive();
+        }
+        else
+        {
+            panel.setActive();
+        }
 
-	}
+    }
 
 	public void deSelectObject()
 	{
 
-		destroyLine (selectedLine);
-		ptrMgr.deSelect ();
-		selected.GetComponent<Selectable> ().deSelectObj ();
-		selected = null;
-		//call pointer manager to reset
-		//call gesture manager to reset
-		//call UI to reset
-		//other stuffs   
-	}
+        destroyLine(selectedLine);
+
+        ptrMgr.deSelect ();
+        panel.setInactive();
+        fiTuCo.setInactive();
+        selected.GetComponent<Selectable>().deSelectObj();
+         
+        selected = null;
+    }
 
 	public GameObject getSelectedObject(){
 
 		return this.selected;
 
 	}
+    /*
+     * True -> active fine tuning
+     * False -> active normal way
+     */ 
+    public void changeOperativeWay(bool activeFineTuning)
+    {
+        this.fineTuningActive = activeFineTuning;
+        if (activeFineTuning)
+        {
+            panel.setInactive();
+            fiTuCo.setActive();
+        }
+        else
+        {
+            fiTuCo.setInactive();
+            panel.setActive();
+        }
+    }
 
 
-	/*
-     *  For groups managment
-     */
-	public void selectNext()
-	{
-
-	}
-
-	/*
-     *  For groups managment
-     */
-	public void selectAll()
-	{
-
-	}
+    /*support region */
 
 	public GameObject drawLine(Vector3 origin, Vector3 dest, Color color, Material mat){
 

@@ -186,6 +186,7 @@ public class PointerManager : MonoBehaviour {
         selectable = true;
         focused = null;
         selected = null;
+        time = 0;
     }
 
 	public bool getMovementState(){
