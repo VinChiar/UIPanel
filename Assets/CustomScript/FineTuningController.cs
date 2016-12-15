@@ -5,7 +5,7 @@ public class FineTuningController : MonoBehaviour {
 
     private bool active;
     private SceneManager scnMgr;
-
+    public float accuracy;
 
     public void setActive()
     {

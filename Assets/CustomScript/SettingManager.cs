@@ -3,14 +3,15 @@ using System.Collections;
 
 public class SettingManager : MonoBehaviour {
 
-    public GameObject rootScene;
     public GameObject panel;
+    SceneManager scnMgr;
     private bool act;
 
     void Start()
     {
         act = false;
         panel.SetActive(act);
+        scnMgr = FindObjectOfType<SceneManager>();
     }
 
     public void ToggleUI()
@@ -21,6 +22,6 @@ public class SettingManager : MonoBehaviour {
 
     public void scaleScene(float sc)
     {
-        rootScene.transform.localScale *= sc;
+        scnMgr.scaleScene(sc);
     }
 }

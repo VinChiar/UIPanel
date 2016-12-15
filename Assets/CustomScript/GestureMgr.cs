@@ -94,7 +94,7 @@ public class GestureMgr : MonoBehaviour {
 
 	public void pinchToRotate(){
 
-		int speed = 2;
+		//int speed = 2;
 		if (Input.touchCount == 2){
 
 			Vector3 factors = Vector3.zero;

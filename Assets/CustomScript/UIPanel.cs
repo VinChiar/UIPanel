@@ -8,7 +8,7 @@ public class UIPanel : MonoBehaviour {
 	bool[] pressedButtons = {false, false, false, false, false, false};
 	Color lineColor = Color.blue;
 
-	Camera camera;
+	Camera cam;
 	Canvas canv;
 	SceneManager sceneMgr;
 	PointerManager ptrMgr;
@@ -25,7 +25,7 @@ public class UIPanel : MonoBehaviour {
 	
 		active = false;
 
-		camera = FindObjectOfType<Camera>();
+		cam = FindObjectOfType<Camera>();
 		canv = FindObjectOfType<Canvas>();
 		sceneMgr = FindObjectOfType<SceneManager> ();
 		ptrMgr = FindObjectOfType<PointerManager> ();
@@ -92,8 +92,8 @@ public class UIPanel : MonoBehaviour {
 			dest2.y = panel.transform.position.y + (rt.rect.height / 2) - 30;
 			dest2.z = canv.planeDistance;
 
-            lineBottom = sceneMgr.drawLine(this.selected.transform.position, camera.ScreenToWorldPoint(dest1), lineColor, null);
-            lineTop = sceneMgr.drawLine(this.selected.transform.position, camera.ScreenToWorldPoint(dest2), lineColor, null);
+            lineBottom = sceneMgr.drawLine(this.selected.transform.position, cam.ScreenToWorldPoint(dest1), lineColor, null);
+            lineTop = sceneMgr.drawLine(this.selected.transform.position, cam.ScreenToWorldPoint(dest2), lineColor, null);
 
             panel.gameObject.SetActive(true);
 

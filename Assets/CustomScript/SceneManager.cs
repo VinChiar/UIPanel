@@ -2,16 +2,19 @@
 using System.Collections;
 using UnityEngine.UI;
 
+public enum Axe { X,Y,Z};
+
 public class SceneManager : MonoBehaviour {
 
-	bool allowScale;
-	public GameObject selected;
+    public GameObject rootScene;
+    public GameObject selected;
 	public Material lineMaterial;
 	GameObject selectedLine;
 
 	PointerManager ptrMgr;
     UIPanel panel;
     FineTuningController fiTuCo;
+
 
     RaycastHit hit;
     private bool fineTuningActive;
@@ -54,8 +57,7 @@ public class SceneManager : MonoBehaviour {
 	/*
      *  This function must:
      *   - set current object to the new one
-     *   - find the group of the new object (if any)
-     *   This function is called by pointerManager
+     *  This function is called by pointerManager
      */
 	public void selectObject(GameObject toSelect)
 	{
@@ -71,7 +73,6 @@ public class SceneManager : MonoBehaviour {
         }
 
     }
-
 	public void deSelectObject()
 	{
 
@@ -90,7 +91,8 @@ public class SceneManager : MonoBehaviour {
 		return this.selected;
 
 	}
-    /*
+
+    /* CHANGE OPERATIVE WAY FUNCT
      * True -> active fine tuning
      * False -> active normal way
      */ 
@@ -174,10 +176,64 @@ public class SceneManager : MonoBehaviour {
 
 	}
 
+    public void scaleScene( float value )
+    {
+        rootScene.transform.localScale *= value;
+    }
+
 	public void rotate(Vector3 rotation){
-
-		selected.transform.Rotate(rotation);
-
+		selected.transform.Rotate(rotation,Space.World);
 	}
+
+    /***FUNCTION FOR 7GoF */
+
+    public void translateSingleAxe(float value, Axe a)
+    {
+        Vector3 v3;
+        switch (a)
+        {   
+            case Axe.X:
+                v3 = new Vector3(value, 0, 0);
+                break;
+            case Axe.Y:
+                v3 = new Vector3(0, value, 0);
+                break;
+            case Axe.Z:
+                v3 = new Vector3(0, 0, value);
+                break;
+            default:
+                v3 = Vector3.zero;
+                break;
+        }
+        if(selected!= null)
+        {
+            selected.transform.position += v3;
+        }
+    }
+
+    public void rotateSingleAxe(float value, Axe a)
+    {
+        Vector3 v3;
+        switch (a)
+        {
+            case Axe.X:
+                v3 = new Vector3(value, 0, 0);
+                break;
+            case Axe.Y:
+                v3 = new Vector3(0, value, 0);
+                break;
+            case Axe.Z:
+                v3 = new Vector3(0, 0, value);
+                break;
+            default:
+                v3 = Vector3.zero;
+                break;
+        }
+        if (selected != null)
+        {
+            selected.transform.Rotate(v3, Space.World);
+        }
+    }
+
 
 }
